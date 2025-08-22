@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">{{ translations.app_title }}</h1>
+                <p class="lead mb-4">{{ translations.tagline }}</p>
+                <a href="{{ url_for('assessment') }}" class="btn btn-light btn-lg">
+                    <i class="fas fa-play-circle me-2"></i>{{ translations.start_assessment }}
+                </a>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="fas fa-chart-line display-1 text-white-50"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <!-- About Section -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h2 class="mb-4">{{ translations.about_heading }}</h2>
+            <p class="lead">{{ translations.about_text }}</p>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2>{{ translations.features_heading }}</h2>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-robot fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">{{ translations.feature_1 }}</h5>
+                    <p class="card-text">Advanced algorithms analyze your profile to suggest the best career matches.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-book-open fa-3x text-success mb-3"></i>
+                    <h5 class="card-title">{{ translations.feature_2 }}</h5>
+                    <p class="card-text">Access curated free online courses to develop skills for your chosen career.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-scholarship fa-3x text-warning mb-3"></i>
+                    <h5 class="card-title">{{ translations.feature_3 }}</h5>
+                    <p class="card-text">Discover scholarships and funding opportunities for your education.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-language fa-3x text-info mb-3"></i>
+                    <h5 class="card-title">{{ translations.feature_4 }}</h5>
+                    <p class="card-text">Available in multiple regional languages for better accessibility.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-mobile-alt fa-3x text-secondary mb-3"></i>
+                    <h5 class="card-title">{{ translations.feature_5 }}</h5>
+                    <p class="card-text">Optimized for mobile devices and low-bandwidth connections.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-tractor fa-3x text-success mb-3"></i>
+                    <h5 class="card-title">{{ translations.feature_6 }}</h5>
+                    <p class="card-text">Special focus on careers suitable for rural areas and local opportunities.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+            <div class="card bg-primary text-white">
+                <div class="card-body py-5">
+                    <h3 class="card-title">Ready to Discover Your Career Path?</h3>
+                    <p class="card-text mb-4">Take our comprehensive assessment and get personalized career recommendations powered by AI.</p>
+                    <a href="{{ url_for('assessment') }}" class="btn btn-light btn-lg">
+                        <i class="fas fa-arrow-right me-2"></i>{{ translations.start_assessment }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block title %}{{ translations.results_title }} - {{ translations.app_title }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Results Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <i class="fas fa-chart-line me-2"></i>{{ translations.results_title }}
+                    </h2>
+                    <p class="card-text mb-0">Hello {{ student.name }}! Based on your assessment, here are your personalized career recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Career Recommendations Chart -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Career Match Visualization</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="careerChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Your Profile Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mb-2">
+                            <strong>Location:</strong><br>{{ student.location }}
+                        </div>
+                        <div class="col-6 mb-2">
+                            <strong>Education:</strong><br>{{ student.education_level.replace('_', ' ').title() }}
+                        </div>
+                        <div class="col-6 mb-2">
+                            <strong>Top Skills:</strong><br>
+                            {% set skills = [
+                                ('Technical', student.technical_skills),
+                                ('Communication', student.communication_skills),
+                                ('Analytical', student.analytical_skills),
+                                ('Creative', student.creative_skills),
+                                ('Leadership', student.leadership_skills)
+                            ] %}
+                            {% set top_skill = skills|sort(attribute=1, reverse=true)|first %}
+                            {{ top_skill[0] }} ({{ top_skill[1] }}/5)
+                        </div>
+                        <div class="col-6 mb-2">
+                            <strong>Primary Interest:</strong><br>
+                            {% set interests = [
+                                ('Technology', student.interest_technology),
+                                ('Arts', student.interest_arts),
+                                ('Business', student.interest_business),
+                                ('Healthcare', student.interest_healthcare),
+                                ('Education', student.interest_education),
+                                ('Agriculture', student.interest_agriculture),
+                                ('Government', student.interest_government)
+                            ] %}
+                            {% set top_interest = interests|sort(attribute=1, reverse=true)|first %}
+                            {{ top_interest[0] }} ({{ top_interest[1] }}/5)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Career Recommendations -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3 class="mb-3">Top Career Recommendations</h3>
+            <div class="row">
+                {% for rec in recommendations %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title">{{ rec.career.name }}</h5>
+                                <span class="badge bg-primary">{{ rec.match_percentage }}% {{ translations.match_score }}</span>
+                            </div>
+                            <p class="card-text">{{ rec.career.description[:100] }}...</p>
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="fas fa-money-bill-wave me-1"></i>{{ rec.career.average_salary }}<br>
+                                    <i class="fas fa-chart-line me-1"></i>{{ rec.career.job_growth }}<br>
+                                    {% if rec.career.rural_opportunities %}
+                                        <i class="fas fa-check-circle text-success me-1"></i>Rural Friendly
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('career_details', career_id=rec.career.id) }}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-info-circle me-1"></i>{{ translations.view_details }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommended Courses -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-book-open me-2"></i>{{ translations.recommended_courses }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for course in courses %}
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <div class="card border">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ course.title }}</h6>
+                                    <p class="card-text small">{{ course.description[:80] }}...</p>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <small class="text-muted">{{ course.provider }}</small>
+                                        {% if course.is_free %}
+                                            <span class="badge bg-success">{{ translations.free_course }}</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">{{ translations.paid_course }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock me-1"></i>{{ course.duration }}<br>
+                                            <i class="fas fa-layer-group me-1"></i>{{ course.level }}
+                                        </small>
+                                    </div>
+                                    <a href="{{ course.url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-external-link-alt me-1"></i>View Course
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scholarships -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-graduation-cap me-2"></i>{{ translations.scholarships }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for scholarship in scholarships %}
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <div class="card border">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h6 class="card-title">{{ scholarship.name }}</h6>
+                                        {% if scholarship.for_rural_students %}
+                                            <span class="badge bg-success">Rural Friendly</span>
+                                        {% endif %}
+                                    </div>
+                                    <p class="card-text small">{{ scholarship.description[:100] }}...</p>
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <i class="fas fa-money-bill me-1"></i>{{ scholarship.amount }}<br>
+                                            <i class="fas fa-building me-1"></i>{{ scholarship.provider }}<br>
+                                            <i class="fas fa-calendar me-1"></i>{{ scholarship.deadline }}
+                                        </small>
+                                    </div>
+                                    {% if scholarship.application_url %}
+                                    <a href="{{ scholarship.application_url }}" target="_blank" class="btn btn-outline-success btn-sm">
+                                        <i class="fas fa-external-link-alt me-1"></i>{{ translations.apply_now }}
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Career Chart
+fetch(`/api/career-chart-data/{{ student.id }}`)
+    .then(response => response.json())
+    .then(data => {
+        const ctx = document.getElementById('careerChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    data: data.data,
+                    backgroundColor: data.colors,
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 10,
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error loading chart data:', error);
+        document.getElementById('careerChart').style.display = 'none';
+    });
+</script>
+{% endblock %}

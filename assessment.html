@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{% block title %}{{ translations.assessment_title }} - {{ translations.app_title }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title mb-0">
+                        <i class="fas fa-clipboard-list me-2"></i>{{ translations.assessment_title }}
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" id="assessmentForm">
+                        {{ form.hidden_tag() }}
+                        
+                        <!-- Basic Information Section -->
+                        <div class="section-header mb-4">
+                            <h4 class="text-primary">
+                                <i class="fas fa-user me-2"></i>{{ translations.basic_info }}
+                            </h4>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form.name.label(class="form-label") }}
+                                {{ form.name(class="form-control") }}
+                                {% if form.name.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.name.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.age.label(class="form-label") }}
+                                {{ form.age(class="form-control") }}
+                                {% if form.age.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.age.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form.location.label(class="form-label") }}
+                                {{ form.location(class="form-control") }}
+                                {% if form.location.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.location.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.education_level.label(class="form-label") }}
+                                {{ form.education_level(class="form-select") }}
+                                {% if form.education_level.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.education_level.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            {{ form.preferred_language.label(class="form-label") }}
+                            {{ form.preferred_language(class="form-select") }}
+                            {% if form.preferred_language.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.preferred_language.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Skills Assessment Section -->
+                        <div class="section-header mb-4">
+                            <h4 class="text-success">
+                                <i class="fas fa-tools me-2"></i>{{ translations.skills_assessment }}
+                            </h4>
+                            <p class="text-muted small">Rate your skills on a scale of 1 (Poor) to 5 (Excellent)</p>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">{{ form.technical_skills.label.text }}</label>
+                                <div class="rating-group">
+                                    {% for subfield in form.technical_skills %}
+                                        <div class="form-check form-check-inline">
+                                            {{ subfield(class="form-check-input") }}
+                                            {{ subfield.label(class="form-check-label") }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if form.technical_skills.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.technical_skills.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">{{ form.communication_skills.label.text }}</label>
+                                <div class="rating-group">
+                                    {% for subfield in form.communication_skills %}
+                                        <div class="form-check form-check-inline">
+                                            {{ subfield(class="form-check-input") }}
+                                            {{ subfield.label(class="form-check-label") }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if form.communication_skills.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.communication_skills.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">{{ form.analytical_skills.label.text }}</label>
+                                <div class="rating-group">
+                                    {% for subfield in form.analytical_skills %}
+                                        <div class="form-check form-check-inline">
+                                            {{ subfield(class="form-check-input") }}
+                                            {{ subfield.label(class="form-check-label") }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if form.analytical_skills.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.analytical_skills.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">{{ form.creative_skills.label.text }}</label>
+                                <div class="rating-group">
+                                    {% for subfield in form.creative_skills %}
+                                        <div class="form-check form-check-inline">
+                                            {{ subfield(class="form-check-input") }}
+                                            {{ subfield.label(class="form-check-label") }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if form.creative_skills.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.creative_skills.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <label class="form-label">{{ form.leadership_skills.label.text }}</label>
+                                <div class="rating-group">
+                                    {% for subfield in form.leadership_skills %}
+                                        <div class="form-check form-check-inline">
+                                            {{ subfield(class="form-check-input") }}
+                                            {{ subfield.label(class="form-check-label") }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if form.leadership_skills.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.leadership_skills.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Interest Assessment Section -->
+                        <div class="section-header mb-4">
+                            <h4 class="text-info">
+                                <i class="fas fa-heart me-2"></i>{{ translations.interests_assessment }}
+                            </h4>
+                            <p class="text-muted small">Rate your interest level from 1 (Very Low) to 5 (Very High)</p>
+                        </div>
+                        
+                        {% for field in [form.interest_technology, form.interest_arts, form.interest_business, form.interest_healthcare, form.interest_education, form.interest_agriculture, form.interest_government] %}
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">{{ field.label.text }}</label>
+                                <div class="rating-group">
+                                    {% for subfield in field %}
+                                        <div class="form-check form-check-inline">
+                                            {{ subfield(class="form-check-input") }}
+                                            {{ subfield.label(class="form-check-label") }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in field.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <!-- Personality Assessment Section -->
+                        <div class="section-header mb-4">
+                            <h4 class="text-warning">
+                                <i class="fas fa-user-circle me-2"></i>{{ translations.personality_assessment }}
+                            </h4>
+                            <p class="text-muted small">Rate how much you agree with each statement from 1 (Strongly Disagree) to 5 (Strongly Agree)</p>
+                        </div>
+                        
+                        {% for field in [form.extroversion, form.conscientiousness, form.openness, form.agreeableness] %}
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">{{ field.label.text }}</label>
+                                <div class="rating-group">
+                                    {% for subfield in field %}
+                                        <div class="form-check form-check-inline">
+                                            {{ subfield(class="form-check-input") }}
+                                            {{ subfield.label(class="form-check-label") }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in field.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-chart-bar me-2"></i>{{ translations.submit_assessment }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('assessmentForm').addEventListener('submit', function(e) {
+    const button = this.querySelector('button[type="submit"]');
+    button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+    button.disabled = true;
+});
+</script>
+{% endblock %}
